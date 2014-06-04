@@ -1,0 +1,70 @@
+PATH
+  remote: .
+  specs:
+    delicious (0.0.1)
+      faraday
+      faraday_middleware
+      multi_xml
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.3.6)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
+    byebug (2.7.0)
+      columnize (~> 0.3)
+      debugger-linecache (~> 1.2)
+    coderay (1.1.0)
+    columnize (0.3.6)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
+    debug_inspector (0.0.2)
+    debugger-linecache (1.2.0)
+    diff-lcs (1.2.5)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
+    method_source (0.8.2)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    pry-byebug (1.3.2)
+      byebug (~> 2.7)
+      pry (~> 0.9.12)
+    pry-stack_explorer (0.4.9.1)
+      binding_of_caller (>= 0.7)
+      pry (>= 0.9.11)
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
+    rspec-core (3.0.0)
+      rspec-support (~> 3.0.0)
+    rspec-expectations (3.0.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.0.0)
+    rspec-mocks (3.0.0)
+      rspec-support (~> 3.0.0)
+    rspec-support (3.0.0)
+    safe_yaml (1.0.3)
+    slop (3.5.0)
+    webmock (1.18.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.0)
+  delicious!
+  pry
+  pry-byebug
+  pry-stack_explorer
+  rspec (~> 3.0.0)
+  webmock
