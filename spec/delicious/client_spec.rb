@@ -33,52 +33,80 @@ describe Delicious::Client do
         .to_return body: body, headers: {'Content-Type' => 'text/xml; charset=UTF-8'}
     end
 
-    let(:post) do
-      client.post url: 'http://example.com/cool-blog-post', 
-                  description: 'Cool post, eh?',
-                  extended: 'Extended info',
-                  tags: 'tag1, tag2',
-                  dt: '2014-05-04T22:01:00Z',
-                  replace: 'no',
-                  shared: 'no'
+    let(:attrs) do
+      { url:         'http://example.com/cool-blog-post',
+        description: 'Cool post, eh?',
+        extended:    'Extended info',
+        tags:        'tag1, tag2',
+        dt:          '2014-05-04T22:01:00Z',
+        replace:     'no',
+        shared:      'no'
+      }
     end
+    let(:post) { client.post attrs }
 
-    it 'adds "Authorization: Bearer my-access-token" header' do
-      post
-      expect(WebMock).to have_requested(:post, ENDPOINT)
-        .with(headers: { 'Authorization' => 'Bearer my-access-token' })
-    end
-
-    context 'params' do
-      it 'sends url=http://example.com/cool-blog-post' do
+    context 'valid attributes given' do
+      it 'adds "Authorization: Bearer my-access-token" header' do
         post
-        expect(WebMock).to have_requested(:post, ENDPOINT).with { |r| assert_param(r, 'url', 'http://example.com/cool-blog-post') }
+        expect(WebMock).to have_requested(:post, ENDPOINT)
+          .with(headers: { 'Authorization' => 'Bearer my-access-token' })
       end
 
-      it 'sends description=Cool post, eh?' do
-        post
-        expect(WebMock).to have_requested(:post, ENDPOINT).with { |r| assert_param(r, 'description', 'Cool post, eh?') }
-      end
-    end
+      context 'params' do
+        it 'sends url=http://example.com/cool-blog-post' do
+          post
+          expect(WebMock).to have_requested(:post, ENDPOINT).with { |r| assert_param(r, 'url', 'http://example.com/cool-blog-post') }
+        end
 
-    describe 'result' do
-      subject { post }
-
-      context 'success' do
-        let(:result) { :success }
-
-        it { should be_an_instance_of Delicious::Post }
-        it 'has url' do
-          expect(subject.url).to eq 'http://example.com/cool-blog-post'
+        it 'sends description=Cool post, eh?' do
+          post
+          expect(WebMock).to have_requested(:post, ENDPOINT).with { |r| assert_param(r, 'description', 'Cool post, eh?') }
         end
       end
 
-      context 'failure' do
-        let(:result) { :failure }
+      describe 'result' do
+        subject { post }
 
-        it 'throws an error' do
-          expect { subject }.to raise_error
+        context 'success' do
+          let(:result) { :success }
+
+          it { should be_an_instance_of Delicious::Post }
+          it 'has url' do
+            expect(subject.url).to eq 'http://example.com/cool-blog-post'
+          end
+          it 'returns not persisted Post object' do
+            expect(subject).to be_persisted
+          end
         end
+
+        context 'failure' do
+          let(:result) { :failure }
+
+          it 'throws an error' do
+            expect { subject }.to raise_error
+          end
+        end
+      end
+    end
+
+    context 'invalid attributes given' do
+      let(:attrs) do
+        { description: 'Cool site' }
+      end
+
+      it 'does not sends request' do
+        post
+        expect(WebMock).not_to have_requested(:post, ENDPOINT)
+      end
+
+      it 'returns invalid Post object' do
+        p = post
+        expect(p).not_to be_valid
+      end
+
+      it 'returns not persisted Post object' do
+        p = post
+        expect(p).not_to be_persisted
       end
     end
   end

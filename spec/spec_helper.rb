@@ -1,5 +1,6 @@
 require 'delicious'
 require 'webmock/rspec'
+require 'shoulda/matchers'
 
 require 'helpers/request_helper'
 

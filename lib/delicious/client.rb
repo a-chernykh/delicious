@@ -11,14 +11,16 @@ module Delicious
     end
 
     def post(params)
-      response = connection.post '/v1/posts/add', params
-      code = response.body['result']['code']
-      success = code == 'done'
-      if success
-        Post.new
-      else
-        throw code
+      post = Post.new params
+
+      if post.valid?
+        response = connection.post '/v1/posts/add', params
+        code = response.body['result']['code']
+        throw code unless 'done' == code
+        post.persisted = true
       end
+
+      post
     end
 
     private

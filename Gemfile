@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gemspec
+
 group :test do
   gem 'rspec', '~> 3.0.0'
   gem 'webmock'
@@ -7,6 +9,6 @@ group :test do
   gem 'pry'
   gem 'pry-byebug'
   gem 'pry-stack_explorer'
-end
 
-gemspec
+  gem 'shoulda-matchers'
+end
