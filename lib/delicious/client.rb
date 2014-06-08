@@ -4,8 +4,10 @@ require 'multi_xml'
 
 module Delicious
   class Client
-    def access_token
-      'my-access-token'
+    attr_accessor :access_token
+
+    def initialize(&block)
+      yield(self) if block_given?
     end
 
     def post(params)

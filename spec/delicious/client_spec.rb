@@ -11,6 +11,11 @@ describe Delicious::Client do
     it 'sets access_token to my-access-token' do
       expect(client.access_token).to eq 'my-access-token'
     end
+
+    it 'sets access_token to another-access-token' do
+      another_client = described_class.new { |config| config.access_token = 'another-access-token' }
+      expect(another_client.access_token).to eq 'another-access-token'
+    end
   end
 
   describe '#post' do
