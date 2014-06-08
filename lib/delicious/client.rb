@@ -11,7 +11,12 @@ module Delicious
     end
 
     def post(params)
-      post = Post.new params
+      post = Post.new url:         params[:url],
+                      description: params[:description],
+                      extended:    params[:extended],
+                      tags:        params[:tags],
+                      dt:          params[:dt],
+                      shared:      params[:shared]
 
       if post.valid?
         response = connection.post '/v1/posts/add', params
