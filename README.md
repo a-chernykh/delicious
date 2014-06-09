@@ -18,7 +18,9 @@ client = Delicious::Client.new do |config|
 end
 ```
 
-## Create bookmark
+## Bookmarks
+
+### Create
 
 ```ruby
 client.post url:         'http://example.com',
@@ -28,7 +30,7 @@ client.post url:         'http://example.com',
 
 It returns an instance of `Delicious::Post` which responds to `persisted?`.
 
-## Delete bookmark
+### Delete
 
 ```ruby
 client.delete url: 'http://example.com'
