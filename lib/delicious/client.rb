@@ -23,6 +23,7 @@ module Delicious
         code = response_code(response)
         throw code unless 'done' == code
         post.persisted = true
+        post.delicious_client = self
       end
 
       post

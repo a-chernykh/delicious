@@ -32,8 +32,15 @@ It returns an instance of `Delicious::Post` which responds to `persisted?`.
 
 ### Delete
 
+If you have an instance of `Delicious::Post` which was saved, you can call `delete` on it:
+
 ```ruby
-client.delete url: 'http://example.com'
+post = client.post url: 'http://example.com', description: 'Example bookmark'
+post.delete if post.persisted? # => true if bookmark was deleted, false otherwise
 ```
 
-Returns `true` or `false` upon a successful or failed deletion.
+You can also delete bookmark with a client:
+
+```ruby
+client.delete url: 'http://example.com' # => true if bookmark was deleted, false otherwise
+```

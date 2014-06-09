@@ -107,8 +107,6 @@ describe Delicious::Client do
           expect(p).not_to be_persisted
         end
       end
-    
-      after { remove_request_stub @request }
     end
 
     describe '#delete' do
@@ -140,8 +138,6 @@ describe Delicious::Client do
           expect(delete).to eq false
         end
       end
-
-      after { remove_request_stub @request }
     end
   end
 end
