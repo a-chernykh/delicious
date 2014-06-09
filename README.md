@@ -1,5 +1,13 @@
 # Delicious API wrapper
 
+## Installation
+
+Add the following line into your Gemfile:
+
+```ruby
+gem 'delicious', github: 'andreychernih/delicious'
+```
+
 ## Client configuration
 
 You should [obtain access token](https://github.com/SciDevs/delicious-api/blob/master/api/oauth.md) first.
@@ -19,3 +27,11 @@ client.post url:         'http://example.com',
 ```
 
 It returns an instance of `Delicious::Post` which responds to `persisted?`.
+
+## Delete bookmark
+
+```ruby
+client.delete url: 'http://example.com'
+```
+
+Returns `true` or `false` upon a successful or failed deletion.
