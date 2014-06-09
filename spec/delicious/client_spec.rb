@@ -18,96 +18,130 @@ describe Delicious::Client do
     end
   end
 
-  describe '#post' do
-    ENDPOINT = 'https://previous.delicious.com/v1/posts/add'
-
+  context 'requests' do
     let(:result) { :success }
-
+    let(:success_body) { '<?xml version="1.0" encoding="UTF-8"?><result code="done"/>' }
+    let(:failure_boby) { '<?xml version="1.0" encoding="UTF-8"?><result code="error adding link"/>' }
     before do
-      body = if result == :failure
-               '<?xml version="1.0" encoding="UTF-8"?><result code="error adding link"/>'
-             else
-               '<?xml version="1.0" encoding="UTF-8"?><result code="done"/>'
-             end
-      request = stub_request(:post, ENDPOINT)
+      body = result == :failure ? failure_boby : success_body
+      @request = stub_request(:post, endpoint)
         .to_return body: body, headers: {'Content-Type' => 'text/xml; charset=UTF-8'}
     end
 
-    let(:attrs) do
-      { url:         'http://example.com/cool-blog-post',
-        description: 'Cool post, eh?',
-        extended:    'Extended info',
-        tags:        'tag1, tag2',
-        dt:          '2014-05-04T22:01:00Z',
-        replace:     'no',
-        shared:      'no'
-      }
-    end
-    let(:post) { client.post attrs }
+    describe '#post' do
+      let(:endpoint) { 'https://previous.delicious.com/v1/posts/add' }
 
-    context 'valid attributes given' do
+      let(:attrs) do
+        { url:         'http://example.com/cool-blog-post',
+          description: 'Cool post, eh?',
+          extended:    'Extended info',
+          tags:        'tag1, tag2',
+          dt:          '2014-05-04T22:01:00Z',
+          replace:     'no',
+          shared:      'no'
+        }
+      end
+      let(:post) { client.post attrs }
+
+      context 'valid attributes given' do
+        it 'adds "Authorization: Bearer my-access-token" header' do
+          post
+          expect(WebMock).to have_requested(:post, endpoint)
+            .with(headers: { 'Authorization' => 'Bearer my-access-token' })
+        end
+
+        context 'params' do
+          it 'sends url=http://example.com/cool-blog-post' do
+            post
+            expect(WebMock).to have_requested(:post, endpoint).with { |r| assert_param(r, 'url', 'http://example.com/cool-blog-post') }
+          end
+
+          it 'sends description=Cool post, eh?' do
+            post
+            expect(WebMock).to have_requested(:post, endpoint).with { |r| assert_param(r, 'description', 'Cool post, eh?') }
+          end
+        end
+
+        describe 'result' do
+          subject { post }
+
+          context 'success' do
+            let(:result) { :success }
+
+            it { should be_an_instance_of Delicious::Post }
+            it 'has url' do
+              expect(subject.url).to eq 'http://example.com/cool-blog-post'
+            end
+            it 'returns not persisted Post object' do
+              expect(subject).to be_persisted
+            end
+          end
+
+          context 'failure' do
+            let(:result) { :failure }
+
+            it 'throws an error' do
+              expect { subject }.to raise_error
+            end
+          end
+        end
+      end
+
+      context 'invalid attributes given' do
+        let(:attrs) do
+          { description: 'Cool site' }
+        end
+
+        it 'does not sends request' do
+          post
+          expect(WebMock).not_to have_requested(:post, endpoint)
+        end
+
+        it 'returns invalid Post object' do
+          p = post
+          expect(p).not_to be_valid
+        end
+
+        it 'returns not persisted Post object' do
+          p = post
+          expect(p).not_to be_persisted
+        end
+      end
+    
+      after { remove_request_stub @request }
+    end
+
+    describe '#delete' do
+      let(:endpoint) { 'https://previous.delicious.com/v1/posts/delete' }
+      let(:delete)   { client.delete 'http://example.com' }
+      let(:failure_boby) { '<?xml version="1.0" encoding="UTF-8"?><result code="The url or md5 could not be found."/>' }
+
       it 'adds "Authorization: Bearer my-access-token" header' do
-        post
-        expect(WebMock).to have_requested(:post, ENDPOINT)
+        delete
+        expect(WebMock).to have_requested(:post, endpoint)
           .with(headers: { 'Authorization' => 'Bearer my-access-token' })
       end
 
-      context 'params' do
-        it 'sends url=http://example.com/cool-blog-post' do
-          post
-          expect(WebMock).to have_requested(:post, ENDPOINT).with { |r| assert_param(r, 'url', 'http://example.com/cool-blog-post') }
-        end
-
-        it 'sends description=Cool post, eh?' do
-          post
-          expect(WebMock).to have_requested(:post, ENDPOINT).with { |r| assert_param(r, 'description', 'Cool post, eh?') }
-        end
+      it 'sends url=http://example.com' do
+        delete
+        expect(WebMock).to have_requested(:post, endpoint).with { |r| assert_param(r, 'url', 'http://example.com') }
       end
 
-      describe 'result' do
-        subject { post }
-
-        context 'success' do
-          let(:result) { :success }
-
-          it { should be_an_instance_of Delicious::Post }
-          it 'has url' do
-            expect(subject.url).to eq 'http://example.com/cool-blog-post'
-          end
-          it 'returns not persisted Post object' do
-            expect(subject).to be_persisted
-          end
-        end
-
-        context 'failure' do
-          let(:result) { :failure }
-
-          it 'throws an error' do
-            expect { subject }.to raise_error
-          end
+      context 'existing URL' do
+        it 'returns true' do
+          expect(delete).to eq true
         end
       end
-    end
 
-    context 'invalid attributes given' do
-      let(:attrs) do
-        { description: 'Cool site' }
+      context 'non-existing URL' do
+        let(:result) { :failure }
+
+        it 'return false' do
+          expect(delete).to eq false
+        end
       end
 
-      it 'does not sends request' do
-        post
-        expect(WebMock).not_to have_requested(:post, ENDPOINT)
-      end
-
-      it 'returns invalid Post object' do
-        p = post
-        expect(p).not_to be_valid
-      end
-
-      it 'returns not persisted Post object' do
-        p = post
-        expect(p).not_to be_persisted
-      end
+      after { remove_request_stub @request }
     end
   end
 end

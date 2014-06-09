@@ -20,7 +20,7 @@ module Delicious
 
       if post.valid?
         response = connection.post '/v1/posts/add', params
-        code = response.body['result']['code']
+        code = response_code(response)
         throw code unless 'done' == code
         post.persisted = true
       end
@@ -28,7 +28,17 @@ module Delicious
       post
     end
 
+    def delete(url)
+      response = connection.post '/v1/posts/delete', url: url
+      code = response_code(response)
+      'done' == code
+    end
+
     private
+
+    def response_code(response)
+      response.body['result']['code']
+    end
 
     def connection
       Faraday.new(url: api_endpoint, headers: headers) do |c|
