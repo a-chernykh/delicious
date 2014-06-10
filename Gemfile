@@ -11,4 +11,6 @@ group :test do
   gem 'pry-stack_explorer'
 
   gem 'shoulda-matchers'
+
+  gem 'guard-rspec', require: false
 end
