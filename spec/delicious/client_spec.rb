@@ -169,6 +169,17 @@ EOT
             post = action.first
             expect(post.description).to eq 'Angular Classy'
           end
+
+          it 'is persisted' do
+            post = action.first
+            expect(post).to be_persisted
+          end
+
+          it 'can be deleted' do
+            post = action.first
+            expect(client).to receive(:delete).with(url: post.url)
+            post.delete
+          end
         end
       end
     end
