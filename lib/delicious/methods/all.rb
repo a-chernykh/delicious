@@ -6,7 +6,7 @@ module Delicious
       extend ActiveSupport::Concern
 
       def all
-        response = connection.get '/v1/posts/all'
+        response = connection.get '/v1/posts/all', tag_separator: 'comma'
         response.body['posts']['post'].map do |post_attrs|
           post = Delicious::Post.new url:         post_attrs['href'],
                                      description: post_attrs['description'],
