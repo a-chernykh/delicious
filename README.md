@@ -1,5 +1,7 @@
 # Delicious API wrapper
 
+API documentation located [here](https://github.com/SciDevs/delicious-api/tree/master/api).
+
 ## Installation
 
 Add the following line into your Gemfile:

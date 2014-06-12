@@ -24,11 +24,12 @@ describe Delicious::Client do
     let(:failure_boby) { '<?xml version="1.0" encoding="UTF-8"?><result code="error adding link"/>' }
     before do
       body = result == :failure ? failure_boby : success_body
-      @request = stub_request(:post, endpoint)
+      @request = stub_request(method, endpoint)
         .to_return body: body, headers: {'Content-Type' => 'text/xml; charset=UTF-8'}
     end
 
     describe '#post' do
+      let(:method)   { :post }
       let(:endpoint) { 'https://previous.delicious.com/v1/posts/add' }
 
       let(:attrs) do
@@ -41,29 +42,25 @@ describe Delicious::Client do
           shared:      'no'
         }
       end
-      let(:post) { client.post attrs }
+      let(:action) { client.post attrs }
 
       context 'valid attributes given' do
-        it 'adds "Authorization: Bearer my-access-token" header' do
-          post
-          expect(WebMock).to have_requested(:post, endpoint)
-            .with(headers: { 'Authorization' => 'Bearer my-access-token' })
-        end
+        it_behaves_like 'api action'
 
         context 'params' do
           it 'sends url=http://example.com/cool-blog-post' do
-            post
+            action
             expect(WebMock).to have_requested(:post, endpoint).with { |r| assert_param(r, 'url', 'http://example.com/cool-blog-post') }
           end
 
           it 'sends description=Cool post, eh?' do
-            post
+            action
             expect(WebMock).to have_requested(:post, endpoint).with { |r| assert_param(r, 'description', 'Cool post, eh?') }
           end
         end
 
         describe 'result' do
-          subject { post }
+          subject { action }
 
           context 'success' do
             let(:result) { :success }
@@ -93,41 +90,38 @@ describe Delicious::Client do
         end
 
         it 'does not sends request' do
-          post
+          action
           expect(WebMock).not_to have_requested(:post, endpoint)
         end
 
         it 'returns invalid Post object' do
-          p = post
+          p = action
           expect(p).not_to be_valid
         end
 
         it 'returns not persisted Post object' do
-          p = post
+          p = action
           expect(p).not_to be_persisted
         end
       end
     end
 
     describe '#delete' do
+      let(:method)   { :post }
       let(:endpoint) { 'https://previous.delicious.com/v1/posts/delete' }
-      let(:delete)   { client.delete 'http://example.com' }
+      let(:action)   { client.delete 'http://example.com' }
       let(:failure_boby) { '<?xml version="1.0" encoding="UTF-8"?><result code="The url or md5 could not be found."/>' }
 
-      it 'adds "Authorization: Bearer my-access-token" header' do
-        delete
-        expect(WebMock).to have_requested(:post, endpoint)
-          .with(headers: { 'Authorization' => 'Bearer my-access-token' })
-      end
+      it_behaves_like 'api action'
 
       it 'sends url=http://example.com' do
-        delete
+        action
         expect(WebMock).to have_requested(:post, endpoint).with { |r| assert_param(r, 'url', 'http://example.com') }
       end
 
       context 'existing URL' do
         it 'returns true' do
-          expect(delete).to eq true
+          expect(action).to eq true
         end
       end
 
@@ -135,7 +129,46 @@ describe Delicious::Client do
         let(:result) { :failure }
 
         it 'return false' do
-          expect(delete).to eq false
+          expect(action).to eq false
+        end
+      end
+    end
+
+    describe '#all' do
+      let(:method)   { :get }
+      let(:endpoint) { 'https://previous.delicious.com/v1/posts/all' }
+      let(:action)   { client.all }
+      let(:success_body) do
+        <<-EOT
+<?xml version="1.0" encoding="UTF-8"?>
+<posts tag="" total="748" user="slurmdrinker">
+  <post description="Angular Classy" extended="" hash="ee7e657f5f5998fbc136e5910080bd85" href="http://davej.github.io/angular-classy/" private="no" shared="yes" tag="angularjs javascript controller angular angular.js library" time="2014-04-30T18:12:46Z"/>
+  <post description="Postgresql Array and Hstore Column Reference - Application Development - HoneyCo" extended="" hash="598b527aa58ce750807b9b02308dde07" href="http://tastehoneyco.com/blog/postgresql-array-and-hstore-column-reference/?utm_source=rubyweekly&amp;utm_medium=email/" private="no" shared="yes" tag="postgresql rails ruby postgres hstore arrays" time="2014-04-20T18:00:21Z"/>
+</posts>
+EOT
+      end
+
+      it_behaves_like 'api action'
+
+      it 'sends /v1/posts/all request' do
+        action
+        expect(WebMock).to have_requested(:get, endpoint)
+      end
+
+      describe 'result' do
+        it 'has 2 items' do
+          expect(action.count).to eq 2
+        end
+
+        describe 'first' do
+          it 'is an instance of Delicious::Post' do
+            expect(action.first).to be_an_instance_of Delicious::Post
+          end
+
+          it 'has attributes set' do
+            post = action.first
+            expect(post.description).to eq 'Angular Classy'
+          end
         end
       end
     end

@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'faraday_middleware'
   spec.add_dependency 'multi_xml'
   spec.add_dependency 'activemodel'
+  spec.add_dependency 'activesupport'
 
   spec.add_development_dependency 'bundler', '~> 1.0'
 

@@ -13,4 +13,5 @@ group :test do
   gem 'shoulda-matchers'
 
   gem 'guard-rspec', require: false
+  gem 'terminal-notifier-guard'
 end

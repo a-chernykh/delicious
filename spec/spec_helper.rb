@@ -1,8 +1,10 @@
 require 'delicious'
 require 'webmock/rspec'
+# ActiveModel should be required before shoulda/matchers
+require 'active_model'
 require 'shoulda/matchers'
 
-require 'helpers/request_helper'
+Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 
 RSpec.configure do |c|
   c.include RequestHelper
