@@ -22,6 +22,20 @@ end
 
 ## Bookmarks
 
+### Get bookmarks
+
+`client.all` returns all bookmarks created by user associated with access token. You can paginate results:
+
+```ruby
+client.all.offset(50).limit(100)
+```
+
+It's possible to filter by tag, starting and ending dates:
+
+```ruby
+client.all.tag('angular').from('2013/11/12 10:23:00').to('2013/11/13 12:10:00')
+```
+
 ### Create
 
 ```ruby
