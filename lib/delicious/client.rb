@@ -33,7 +33,8 @@ module Delicious
     end
 
     def headers
-      { 'Authorization' => "Bearer #{access_token}" }.freeze
+      { authorization: "Bearer #{access_token}",
+        user_agent:    "delicious-ruby #{Delicious.version}" }.freeze
     end
   end
 end
