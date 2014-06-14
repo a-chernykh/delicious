@@ -14,8 +14,8 @@ describe Delicious::Post do
 
       it 'invokes delete with the URL on associated client' do
         client = Delicious::Client.new { |c| c.access_token = 'my-access-token' }
-        post = client.post url: 'http://example.com', description: 'Cool site'
-        expect(client).to receive(:delete).with url: 'http://example.com'
+        post = client.bookmarks.create url: 'http://example.com', description: 'Cool site'
+        expect(client.bookmarks).to receive(:delete).with url: 'http://example.com'
         post.delete
       end
     end

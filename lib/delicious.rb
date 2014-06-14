@@ -1,10 +1,28 @@
 module Delicious
-  autoload :Client, 'delicious/client'
-  autoload :Post,   'delicious/post'
+  autoload :Client,    'delicious/client'
+  autoload :ApiModel,  'delicious/api_model'
+  autoload :Post,      'delicious/post'
+  autoload :Bundle,    'delicious/bundle'
+  autoload :Error,     'delicious/error'
 
-  module Methods
-    autoload :All,    'delicious/methods/all'
-    autoload :Post,   'delicious/methods/post'
-    autoload :Delete, 'delicious/methods/delete'
+  module Bookmarks
+    autoload :Api, 'delicious/bookmarks/api'
+
+    module Methods
+      autoload :All,    'delicious/bookmarks/methods/all'
+      autoload :Create, 'delicious/bookmarks/methods/create'
+      autoload :Delete, 'delicious/bookmarks/methods/delete'
+    end
+  end
+
+  module Bundles
+    autoload :Api, 'delicious/bundles/api'
+
+    module Methods
+      autoload :Find,   'delicious/bundles/methods/find'
+      autoload :All,    'delicious/bundles/methods/all'
+      autoload :Delete, 'delicious/bundles/methods/delete'
+      autoload :Set,    'delicious/bundles/methods/set'
+    end
   end
 end

@@ -6,18 +6,16 @@ module Delicious
   class Client
     attr_accessor :access_token
 
-    include Methods::All
-    include Methods::Post
-    include Methods::Delete
-
     def initialize(&block)
       yield(self) if block_given?
     end
 
-    private
+    def bookmarks
+      @bookmarks ||= Bookmarks::Api.new(self)
+    end
 
-    def response_code(response)
-      response.body['result']['code']
+    def bundles
+      @bundles ||= Bundles::Api.new(self)
     end
 
     def connection
@@ -27,6 +25,8 @@ module Delicious
         c.adapter  Faraday.default_adapter
       end
     end
+
+    private
 
     def api_endpoint
       'https://previous.delicious.com'.freeze
