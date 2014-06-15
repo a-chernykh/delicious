@@ -28,6 +28,11 @@ module Delicious
       @bundles ||= Bundles::Api.new(self)
     end
 
+    # @return [Tags::Api]
+    def tags
+      @tags ||= Tags::Api.new(self)
+    end
+
     # @return [Faraday::Connection]
     def connection
       Faraday.new(url: api_endpoint, headers: headers) do |c|

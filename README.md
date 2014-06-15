@@ -88,3 +88,23 @@ bundle = client.bundles.find 'bundlename'
 ```ruby
 bundles = client.bundles.all
 ```
+
+## Tags
+
+### Get all tags
+
+```ruby
+tags = client.tags.all
+```
+
+### Delete tag
+
+```ruby
+client.tags.delete 'tag'
+```
+
+### Rename tag
+
+```ruby
+client.tags.rename 'old_name', 'new_name'
+```

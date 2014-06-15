@@ -274,4 +274,10 @@ EOT
       end
     end
   end
+
+  describe '#tags' do
+    it 'is an instance of Delicious::Tags::Api' do
+      expect(client.tags).to be_an_instance_of Delicious::Tags::Api
+    end
+  end
 end
