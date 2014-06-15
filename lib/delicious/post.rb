@@ -36,7 +36,7 @@ module Delicious
     end
 
     def to_s
-      "Delicious::Post(url: #{url}, description: #{description}, tags: #{tags})"
+      "Delicious::Post(url: #{url}, description: #{description}, tags: #{tags}, extended: #{extended}, dt: #{dt}, shared: #{shared})"
     end
   end
 end

@@ -102,6 +102,8 @@ describe Delicious::Bookmarks::Methods::All do
           post = action.first
           expect(post.description).to eq 'Angular Classy'
           expect(post.tags).to eq %w(angularjs javascript controller angular angular.js library)
+          expect(post.shared).to eq true
+          expect(post.dt).to eq '2014-04-30T18:12:46Z'
         end
 
         it 'is persisted' do

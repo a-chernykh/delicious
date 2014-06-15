@@ -100,8 +100,8 @@ module Delicious
                 description: post_attrs['description'],
                 extended:    post_attrs['extended'],
                 tags:        post_attrs['tag'],
-                dt:          post_attrs['dt'],
-                shared:      post_attrs['shared']
+                dt:          post_attrs['time'],
+                shared:      (post_attrs['shared'] == 'yes')
             end
           end
         end
