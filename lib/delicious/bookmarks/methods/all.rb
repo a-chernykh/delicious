@@ -93,7 +93,8 @@ module Delicious
         def all
           Criteria.new do |criteria|
             response = @client.connection.get '/v1/posts/all', criteria.params.merge(tag_separator: 'comma')
-            response.body['posts']['post'].map do |post_attrs|
+            posts = response.body['posts'] ? response.body['posts']['post'] : []
+            posts.map do |post_attrs|
               Delicious::Post.build_persisted @client,
                 url:         post_attrs['href'],
                 description: post_attrs['description'],

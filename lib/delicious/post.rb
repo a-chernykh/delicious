@@ -34,5 +34,9 @@ module Delicious
         fail 'Bookmark was not saved yet'
       end
     end
+
+    def to_s
+      "Delicious::Post(url: #{url}, description: #{description}, tags: #{tags})"
+    end
   end
 end
