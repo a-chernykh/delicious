@@ -21,97 +21,19 @@ describe Delicious::Client do
   context 'actions' do
     let(:result)       { :success }
     let(:success_body) { '<?xml version="1.0" encoding="UTF-8"?><result code="done"/>' }
-    let(:failure_boby) { '<?xml version="1.0" encoding="UTF-8"?><result code="error adding link"/>' }
+    let(:failure_body) { '<?xml version="1.0" encoding="UTF-8"?><result code="error adding link"/>' }
     before do
-      body = result == :failure ? failure_boby : success_body
+      body = result == :failure ? failure_body : success_body
       @request = stub_request(method, endpoint)
         .to_return body: body, headers: {'Content-Type' => 'text/xml; charset=UTF-8'}
     end
 
     describe '#bookmarks' do
-      describe '#post' do
-        let(:method)   { :post }
-        let(:endpoint) { 'https://previous.delicious.com/v1/posts/add' }
-
-        let(:attrs) do
-          { url:         'http://example.com/cool-blog-post',
-            description: 'Cool post, eh?',
-            extended:    'Extended info',
-            tags:        'tag1, tag2',
-            dt:          '2014-05-04T22:01:00Z',
-            replace:     'no',
-            shared:      'no'
-          }
-        end
-        let(:action) { client.bookmarks.create attrs }
-
-        context 'valid attributes given' do
-          it_behaves_like 'api action'
-
-          context 'params' do
-            it 'sends url=http://example.com/cool-blog-post' do
-              action
-              expect(WebMock).to have_requested(:post, endpoint).with { |r| assert_param(r, 'url', 'http://example.com/cool-blog-post') }
-            end
-
-            it 'sends description=Cool post, eh?' do
-              action
-              expect(WebMock).to have_requested(:post, endpoint).with { |r| assert_param(r, 'description', 'Cool post, eh?') }
-            end
-          end
-
-          describe 'result' do
-            subject { action }
-
-            context 'success' do
-              let(:result) { :success }
-
-              it { should be_an_instance_of Delicious::Post }
-              it 'has url' do
-                expect(subject.url).to eq 'http://example.com/cool-blog-post'
-              end
-              it 'returns not persisted Post object' do
-                expect(subject).to be_persisted
-              end
-            end
-
-            context 'failure' do
-              let(:result) { :failure }
-
-              it 'throws an error' do
-                expect { subject }.to raise_error
-              end
-            end
-          end
-        end
-
-        context 'invalid attributes given' do
-          let(:attrs) do
-            { description: 'Cool site' }
-          end
-
-          it 'does not sends request' do
-            action
-            expect(WebMock).not_to have_requested(:post, endpoint)
-          end
-
-          it 'returns invalid Post object' do
-            p = action
-            expect(p).not_to be_valid
-          end
-
-          it 'returns not persisted Post object' do
-            p = action
-            expect(p).not_to be_persisted
-          end
-        end
-      end
-
       describe '#delete' do
         let(:method)   { :post }
         let(:endpoint) { 'https://previous.delicious.com/v1/posts/delete' }
         let(:action)   { client.bookmarks.delete 'http://example.com' }
-        let(:failure_boby) { '<?xml version="1.0" encoding="UTF-8"?><result code="The url or md5 could not be found."/>' }
+        let(:failure_body) { '<?xml version="1.0" encoding="UTF-8"?><result code="The url or md5 could not be found."/>' }
 
         it_behaves_like 'api action'
 
@@ -243,7 +165,7 @@ describe Delicious::Client do
 </bundles>
 EOT
         end
-        let(:failure_boby) { '<?xml version="1.0" encoding="UTF-8"?>' }
+        let(:failure_body) { '<?xml version="1.0" encoding="UTF-8"?>' }
 
         it_behaves_like 'api action'
 
@@ -336,7 +258,7 @@ EOT
       let(:method)   { :post }
       let(:endpoint) { 'https://previous.delicious.com/v1/tags/bundles/delete' }
       let(:action)   { client.bundles.delete 'hardware' }
-      let(:failure_boby) { '<?xml version="1.0" encoding="UTF-8"?><result code="The url or md5 could not be found."/>' }
+      let(:failure_body) { '<?xml version="1.0" encoding="UTF-8"?><result code="The url or md5 could not be found."/>' }
 
       it_behaves_like 'api action'
 
@@ -349,70 +271,6 @@ EOT
         it 'returns true' do
           expect(action).to eq true
         end
-      end
-    end
-
-    describe '#set' do
-      let(:bundle) { 'hardware' }
-      let(:tags)   { %w(tag1 tag2) }
-
-      let(:method)   { :post }
-      let(:endpoint) { 'https://previous.delicious.com/v1/tags/bundles/set' }
-      let(:action)   { client.bundles.set bundle, tags }
-
-      let(:success_body) { '<?xml version="1.0" encoding="UTF-8"?><result>ok</result>' }
-      let(:failure_body) { '<?xml version="1.0" encoding="UTF-8"?><result>tagbundle name is required</result>' }
-
-
-      context 'valid attrs given' do
-        it_behaves_like 'api action'
-
-        it 'sends post to /v1/tags/bundles/set' do
-          action
-          expect(WebMock).to have_requested(:post, endpoint).with do |r| 
-            assert_param(r, 'bundle', 'hardware') && assert_param(r, 'tags', 'tag1,tag2')
-          end
-        end
-
-        context 'ok from server' do
-          let(:result) { :success }
-
-          it 'returns an instance of Delicious::Bundle' do
-            expect(action).to be_an_instance_of(Delicious::Bundle)
-          end
-
-          it 'has name' do
-            expect(action.name).to eq 'hardware'
-          end
-
-          it 'has tags' do
-            expect(action.tags).to eq %w(tag1 tag2)
-          end
-        end
-
-        context 'error on server' do
-          let(:result) { :failure }
-
-          it 'throws an error' do
-            expect { action }.to raise_error Delicious::Error
-          end
-        end
-      end
-
-      context 'bundle name omitted' do
-        let(:bundle) { nil }
-
-        it 'throws an error' do
-          expect { action }.to raise_error("Bundle name can't be blank")
-        end
-      end
-
-      context 'tags are empty' do
-        let(:tags) { nil }
-
-        it 'throws an error' do
-          expect { action }.to raise_error("Please specify at least 1 tag")
-        end        
       end
     end
   end

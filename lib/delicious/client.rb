@@ -6,18 +6,29 @@ module Delicious
   class Client
     attr_accessor :access_token
 
+    # Initializes and configures Delicious client. The only requires configuration option
+    # for now is `access_token`. Example:
+    #
+    # ```ruby
+    # client = Delicious::Client.new do |client|
+    #   client.access_token = 'my-access-token'
+    # end
+    # ```
     def initialize(&block)
       yield(self) if block_given?
     end
 
+    # @return [Bookmarks::Api]
     def bookmarks
       @bookmarks ||= Bookmarks::Api.new(self)
     end
 
+    # @return [Bundles::Api]
     def bundles
       @bundles ||= Bundles::Api.new(self)
     end
 
+    # @return [Faraday::Connection]
     def connection
       Faraday.new(url: api_endpoint, headers: headers) do |c|
         c.request  :url_encoded

@@ -7,6 +7,10 @@ module Delicious
       module Find
         extend ActiveSupport::Concern
 
+        # Find a bundle with given name
+        #
+        # @param name [String] Bundle name
+        # @return [Bundle, nil] Found bundle or `nil` if it was not found
         def find(name)
           response = @client.connection.get '/v1/tags/bundles/all', bundle: name
           bundle = response.body['bundles']['bundle']

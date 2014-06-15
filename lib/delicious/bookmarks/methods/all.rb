@@ -18,24 +18,48 @@ module Delicious
             end
           end
 
+          # @!method limit(count)
+          #   Sets the limit
+          #
+          #   @param count [Integer] How many bookmarks server should return at most
+          #   @return [Criteria]
           param limit: :results
+          # @!method offset(count)
+          #   Sets the offset
+          #
+          #   @param count [Integer] How many bookmarks server should skip
+          #   @return [Criteria]
           param offset: :start
+          # @!method tag(name)
+          #   Sets tag-based filtering
+          #
+          #   @param name [String] Name of the tag
+          #   @return [Criteria]
           param :tag
 
           def initialize(&block)
             @fetch = block
           end
 
-          def from(from)
-            params[:fromdt] = format_time(from)
+          # Sets starting date and time for which you want to get bookmarks
+          #
+          # @!macro [new] time_criteria
+          #   @param date [String,Time,DateTime] `String` time represenation or any object which responds to `strftime`
+          #   @return [Criteria]
+          def from(date)
+            params[:fromdt] = format_time(date)
             self
           end
 
-          def to(to)
-            params[:todt] = format_time(to)
+          # Sets ending date and time for which you want to get bookmarks
+          #
+          # @!macro time_criteria
+          def to(date)
+            params[:todt] = format_time(date)
             self
           end
 
+          # Fetches bookmarks from server filtering by current criteria
           def each(&block)
             @fetch.call(self).each(&block)
           end
@@ -52,6 +76,20 @@ module Delicious
           end
         end
 
+        # Returns all bookmarks associated with given access token. Results can be paginated:
+        #
+        # ```ruby
+        # client.all.offset(150).limit(50).to_a
+        # ```
+        #
+        # And filtered by date and tag:
+        #
+        # ```ruby
+        # client.all.tag('angular').from('2013/11/12 10:23:00').to('2013/11/13 12:10:00')
+        # ```
+        #
+        # @see Criteria
+        # @return [Criteria]
         def all
           Criteria.new do |criteria|
             response = @client.connection.get '/v1/posts/all', criteria.params.merge(tag_separator: 'comma')

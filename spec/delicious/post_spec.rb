@@ -4,6 +4,10 @@ describe Delicious::Post do
   it { should validate_presence_of :url }
   it { should validate_presence_of :description }
 
+  it 'defaults shared to false' do
+    expect(described_class.new.shared).to eq false
+  end
+
   describe '#delete' do
     context 'persisted' do
       before do

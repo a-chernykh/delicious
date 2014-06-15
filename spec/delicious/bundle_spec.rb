@@ -28,7 +28,7 @@ describe Delicious::Bundle do
         client = ::Delicious::Client.new { |c| c.access_token = 'my-access-token' }
         bundle = described_class.build_persisted client, name: 'mybundle', tags: %w(tag1 tag2)
         expect(client.bundles).to receive(:set).with('mybundle', %w(tag1 tag2))
-        bundle.save
+        expect(bundle.save).to eq true
       end
     end
 

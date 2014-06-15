@@ -101,6 +101,7 @@ GEM
     webmock (1.18.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
+    yard (0.8.7.4)
 
 PLATFORMS
   ruby
@@ -116,3 +117,4 @@ DEPENDENCIES
   shoulda-matchers
   terminal-notifier-guard
   webmock
+  yard

@@ -11,17 +11,26 @@ module Delicious
     validates :name, presence: true
     validates :tags, presence: true
 
+    # Deletes this bundle
+    #
+    # @raise [Delicious::Error] if bundle was not saved yet
+    # @return [Boolean] `true` upon successful deletion, `false` otherwise
     def delete
       if persisted? && @delicious_client
         @delicious_client.bundles.delete bundle: name
       else
-        fail 'Bundle was not saved yet'
+        fail Delicious::Error, 'Bundle was not saved yet'
       end
     end
 
+    # Creates or updates bundle
+    #
+    # @raise [Delicious::Error] if bundle is not associated with Delicious::Client or save failed
+    # @return [Boolean] `true` when saved
     def save
       if @delicious_client
         @delicious_client.bundles.set name, tags
+        true
       else
         fail 'Bundle was not saved yet'
       end
