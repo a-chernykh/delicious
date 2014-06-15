@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    delicious (0.0.1)
+    delicious (1.0.0)
       activemodel
       activesupport
       faraday
