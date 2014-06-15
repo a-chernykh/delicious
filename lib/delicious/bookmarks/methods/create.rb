@@ -31,7 +31,7 @@ module Delicious
           if post.valid?
             response = @client.connection.post '/v1/posts/add', post_attrs(post, attrs[:replace])
             code = response.body['result']['code']
-            throw code unless 'done' == code
+            fail Delicious::Error, code unless 'done' == code
             post.persisted = true
             post.delicious_client = @client
           end
