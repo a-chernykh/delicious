@@ -1,6 +1,7 @@
 require 'faraday'
 require 'faraday_middleware'
 require 'multi_xml'
+require 'delicious/version'
 
 module Delicious
   class Client
