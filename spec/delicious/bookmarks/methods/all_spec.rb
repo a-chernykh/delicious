@@ -16,8 +16,8 @@ describe Delicious::Bookmarks::Methods::All do
       <<-EOT
   <?xml version="1.0" encoding="UTF-8"?>
   <posts tag="" total="748" user="slurmdrinker">
-  <post description="Angular Classy" extended="" hash="ee7e657f5f5998fbc136e5910080bd85" href="http://davej.github.io/angular-classy/" private="no" shared="yes" tag="angularjs,javascript,controller,angular,angular.js,library" time="2014-04-30T18:12:46Z"/>
-  <post description="Postgresql Array and Hstore Column Reference - Application Development - HoneyCo" extended="" hash="598b527aa58ce750807b9b02308dde07" href="http://tastehoneyco.com/blog/postgresql-array-and-hstore-column-reference/?utm_source=rubyweekly&amp;utm_medium=email/" private="no" shared="yes" tag="postgresql,rails,ruby,postgres,hstore,arrays" time="2014-04-20T18:00:21Z"/>
+    <post description="Angular Classy" extended="" hash="ee7e657f5f5998fbc136e5910080bd85" href="http://davej.github.io/angular-classy/" private="no" shared="yes" tag="angularjs,javascript,controller,angular,angular.js,library" time="2014-04-30T18:12:46Z"/>
+    <post description="Postgresql Array and Hstore Column Reference - Application Development - HoneyCo" extended="" hash="598b527aa58ce750807b9b02308dde07" href="http://tastehoneyco.com/blog/postgresql-array-and-hstore-column-reference/?utm_source=rubyweekly&amp;utm_medium=email/" private="no" shared="yes" tag="postgresql,rails,ruby,postgres,hstore,arrays" time="2014-04-20T18:00:21Z"/>
   </posts>
   EOT
     end
@@ -101,6 +101,7 @@ describe Delicious::Bookmarks::Methods::All do
         it 'has attributes set' do
           post = action.first
           expect(post.description).to eq 'Angular Classy'
+          expect(post.tags).to eq %w(angularjs javascript controller angular angular.js library)
         end
 
         it 'is persisted' do
