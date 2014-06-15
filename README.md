@@ -7,7 +7,7 @@ API documentation located [here](https://github.com/SciDevs/delicious-api/tree/m
 Add the following line into your Gemfile:
 
 ```ruby
-gem 'delicious', github: 'andreychernih/delicious'
+gem 'delicious', '~> 1.0.0'
 ```
 
 ## Client configuration
