@@ -18,5 +18,9 @@ module Delicious
         fail Delicious::Error, 'Tag was not saved yet'
       end
     end
+
+    def to_s
+      %Q(Tag(name: "#{name}", count: #{count}))
+    end
   end
 end

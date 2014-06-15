@@ -35,5 +35,9 @@ module Delicious
         fail 'Bundle was not saved yet'
       end
     end
+
+    def to_s
+      %Q(Delicious::Bundle(name: "#{name}", tags: #{tags}))
+    end
   end
 end
