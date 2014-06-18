@@ -94,16 +94,20 @@ module Delicious
           Criteria.new do |criteria|
             response = @client.connection.get '/v1/posts/all', criteria.params.merge(tag_separator: 'comma')
             posts = response.body['posts'] ? response.body['posts']['post'] : []
-            posts.map do |post_attrs|
-              Delicious::Post.build_persisted @client,
-                url:         post_attrs['href'],
-                description: post_attrs['description'],
-                extended:    post_attrs['extended'],
-                tags:        post_attrs['tag'],
-                dt:          post_attrs['time'],
-                shared:      (post_attrs['shared'] == 'yes')
-            end
+            posts.map { |attrs| Delicious::Post.build_persisted @client, translate_attrs(attrs) }
           end
+        end
+
+        private
+
+        def translate_attrs(attrs)
+          { url:         attrs['href'],
+            description: attrs['description'],
+            extended:    attrs['extended'],
+            tags:        attrs['tag'],
+            dt:          attrs['time'],
+            shared:      (attrs['shared'] == 'yes') 
+          }
         end
       end
 
