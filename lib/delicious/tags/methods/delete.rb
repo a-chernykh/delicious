@@ -6,15 +6,15 @@ module Delicious
 
       module Delete
         extend ActiveSupport::Concern
-
+        include DeleteMethod
+        
         # Deletes tag
         #
         # @param tag [String] Tag name
         # @return [Boolean] `true` on successful deletion
         def delete(tag)
           response = @client.connection.post '/v1/tags/delete', tag: tag
-          code = response.body['result']['code']
-          'done' == code
+          is_delete_successful response
         end
       end
 

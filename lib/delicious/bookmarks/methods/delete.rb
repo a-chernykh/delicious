@@ -6,6 +6,7 @@ module Delicious
 
       module Delete
         extend ActiveSupport::Concern
+        include DeleteMethod
 
         # Deletes bookmark with given URL
         #
@@ -13,8 +14,7 @@ module Delicious
         # @return [Boolean] `true` on successful deletion, `false` otherwise
         def delete(url)
           response = @client.connection.post '/v1/posts/delete', url: url
-          code = response.body['result']['code']
-          'done' == code
+          is_delete_successful response
         end
       end
 

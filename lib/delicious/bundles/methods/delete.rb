@@ -6,6 +6,7 @@ module Delicious
 
       module Delete
         extend ActiveSupport::Concern
+        include DeleteMethod
 
         # Delete bundle with given name
         #
@@ -13,8 +14,7 @@ module Delicious
         # @return [Boolean] `true` upon a successful deletion, `false` otherwise
         def delete(name)
           response = @client.connection.post '/v1/tags/bundles/delete', bundle: name
-          code = response.body['result']['code']
-          'done' == code
+          is_delete_successful response
         end
       end
 

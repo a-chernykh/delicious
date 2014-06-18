@@ -1,10 +1,11 @@
 module Delicious
-  autoload :Client,   'delicious/client'
-  autoload :ApiModel, 'delicious/api_model'
-  autoload :Post,     'delicious/post'
-  autoload :Bundle,   'delicious/bundle'
-  autoload :Tag,      'delicious/tag'
-  autoload :Error,    'delicious/error'
+  autoload :Client,       'delicious/client'
+  autoload :ApiModel,     'delicious/api_model'
+  autoload :Post,         'delicious/post'
+  autoload :Bundle,       'delicious/bundle'
+  autoload :Tag,          'delicious/tag'
+  autoload :Error,        'delicious/error'
+  autoload :DeleteMethod, 'delicious/delete_method'
 
   module Bookmarks
     autoload :Api, 'delicious/bookmarks/api'
