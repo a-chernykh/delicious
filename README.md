@@ -1,4 +1,4 @@
-[![Gem Version](https://badge.fury.io/rb/delicious.svg)](http://badge.fury.io/rb/delicious) [![Build Status](https://travis-ci.org/andreychernih/delicious.svg?branch=master)](https://travis-ci.org/andreychernih/delicious) [![Coverage Status](https://coveralls.io/repos/andreychernih/delicious/badge.png)](https://coveralls.io/r/andreychernih/delicious)
+[![Gem Version](https://badge.fury.io/rb/delicious.svg)](http://badge.fury.io/rb/delicious) [![Build Status](https://travis-ci.org/andreychernih/delicious.svg?branch=master)](https://travis-ci.org/andreychernih/delicious) [![Coverage Status](https://coveralls.io/repos/andreychernih/delicious/badge.png)](https://coveralls.io/r/andreychernih/delicious) [![Code Climate](https://codeclimate.com/github/andreychernih/delicious.png)](https://codeclimate.com/github/andreychernih/delicious)
 
 # Delicious API wrapper
 
