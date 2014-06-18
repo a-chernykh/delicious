@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 require 'delicious'
 require 'webmock/rspec'
 # ActiveModel should be required before shoulda/matchers
