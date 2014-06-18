@@ -1,6 +1,12 @@
+[![Gem Version](https://badge.fury.io/rb/delicious.svg)](http://badge.fury.io/rb/delicious)
+
 # Delicious API wrapper
 
 API documentation located [here](https://github.com/SciDevs/delicious-api/tree/master/api).
+
+## Requirements
+
+Ruby versions higher than or equal to `1.9.3` are supported.
 
 ## Installation
 
