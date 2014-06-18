@@ -1,20 +1,12 @@
 require 'spec_helper'
 
 describe Delicious::Bookmarks::Methods::Create do
-  let(:client) do
-    Delicious::Client.new do |config|
-      config.access_token = 'my-access-token'
-    end
-  end
-
   describe '#create' do
-    let(:result) { :success }
+    let(:method)   { :post }
+    let(:endpoint) { 'https://previous.delicious.com/v1/posts/add' }
 
     let(:success_body) { '<?xml version="1.0" encoding="UTF-8"?><result code="done"/>' }
     let(:failure_body) { '<?xml version="1.0" encoding="UTF-8"?><result code="error adding link"/>' }
-
-    let(:method)   { :post }
-    let(:endpoint) { 'https://previous.delicious.com/v1/posts/add' }
 
     let(:tags) { 'tag1, tag2' }
     let(:dt)   { '2014-05-04T22:01:00Z' }
@@ -28,17 +20,13 @@ describe Delicious::Bookmarks::Methods::Create do
         shared:      'no'
       }
     end
+
     let(:action) { client.bookmarks.create attrs }
 
-    before do
-      body = result == :failure ? failure_body : success_body
-      @request = stub_request(method, endpoint)
-        .to_return body: body, headers: {'Content-Type' => 'text/xml; charset=UTF-8'}
-    end
+    include_context 'api action context'
+    it_behaves_like 'api action'
 
     context 'valid attributes given' do
-      it_behaves_like 'api action'
-
       context 'params' do
         it 'sends url=http://example.com/cool-blog-post' do
           action

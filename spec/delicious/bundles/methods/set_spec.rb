@@ -1,34 +1,22 @@
 require 'spec_helper'
 
 describe Delicious::Bundles::Methods::Set do
-  let(:client) do
-    Delicious::Client.new do |config|
-      config.access_token = 'my-access-token'
-    end
-  end
-
   describe '#set' do
-    let(:result) { :success }
-
-    let(:bundle) { 'hardware' }
-    let(:tags)   { %w(tag1 tag2) }
-
     let(:method)   { :post }
     let(:endpoint) { 'https://previous.delicious.com/v1/tags/bundles/set' }
-    let(:action)   { client.bundles.set bundle, tags }
 
     let(:success_body) { '<?xml version="1.0" encoding="UTF-8"?><result>ok</result>' }
     let(:failure_body) { '<?xml version="1.0" encoding="UTF-8"?><result>tagbundle name is required</result>' }
 
-    before do
-      body = result == :failure ? failure_body : success_body
-      @request = stub_request(method, endpoint)
-        .to_return body: body, headers: {'Content-Type' => 'text/xml; charset=UTF-8'}
-    end
+    let(:bundle) { 'hardware' }
+    let(:tags)   { %w(tag1 tag2) }
+
+    let(:action)   { client.bundles.set bundle, tags }
+
+    include_context 'api action context'
+    it_behaves_like 'api action'
 
     context 'valid attrs given' do
-      it_behaves_like 'api action'
-
       it 'sends post to /v1/tags/bundles/set' do
         action
         expect(WebMock).to have_requested(:post, endpoint).with do |r| 

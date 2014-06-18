@@ -1,17 +1,10 @@
 require 'spec_helper'
 
 describe Delicious::Bookmarks::Methods::All do
-  let(:client) do
-    Delicious::Client.new do |config|
-      config.access_token = 'my-access-token'
-    end
-  end
-
   describe '#all' do
-    let(:result)   { :success }
     let(:method)   { :get }
     let(:endpoint) { %r{https:\/\/previous\.delicious\.com\/v1\/posts\/all\?(.+)} }
-    let(:action)   { client.bookmarks.all.to_a }
+    
     let(:success_body) do
       <<-EOT
   <?xml version="1.0" encoding="UTF-8"?>
@@ -23,12 +16,9 @@ describe Delicious::Bookmarks::Methods::All do
     end
     let(:failure_body) { '<?xml version="1.0" encoding="UTF-8"?><result code="no bookmarks"/>' }
 
-    before do
-      body = result == :failure ? failure_body : success_body
-      @request = stub_request(method, endpoint)
-        .to_return body: body, headers: {'Content-Type' => 'text/xml; charset=UTF-8'}
-    end
+    let(:action) { client.bookmarks.all.to_a }
 
+    include_context 'api action context'
     it_behaves_like 'api action'
 
     it 'sends /v1/posts/all request' do
