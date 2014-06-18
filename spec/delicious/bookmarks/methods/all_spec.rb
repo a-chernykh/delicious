@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Delicious::Bookmarks::Methods::All do
   describe '#all' do
     let(:method)   { :get }

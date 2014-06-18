@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Delicious::Bundles::Methods::Delete do
   describe '#delete' do
     let(:method)   { :post }

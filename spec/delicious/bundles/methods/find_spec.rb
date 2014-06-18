@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Delicious::Bundles::Methods::Find do
   describe '#find' do
     let(:method)   { :get }

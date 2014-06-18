@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Delicious::Client do
   let(:client) do
     described_class.new do |config|

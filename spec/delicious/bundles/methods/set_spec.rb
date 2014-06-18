@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Delicious::Bundles::Methods::Set do
   describe '#set' do
     let(:method)   { :post }

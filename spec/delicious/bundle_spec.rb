@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Delicious::Bundle do
   it { should validate_presence_of :name }
   it { should validate_presence_of :tags }

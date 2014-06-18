@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Delicious::Bookmarks::Methods::Create do
   describe '#create' do
     let(:method)   { :post }
