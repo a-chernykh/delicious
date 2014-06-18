@@ -2,10 +2,12 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'rake'
+
 gem 'yard'
 
 gem 'pry'
-gem 'pry-byebug'
+# gem 'pry-byebug'
 gem 'pry-stack_explorer'
 
 group :test do

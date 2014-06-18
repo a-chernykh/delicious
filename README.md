@@ -1,4 +1,4 @@
-[![Gem Version](https://badge.fury.io/rb/delicious.svg)](http://badge.fury.io/rb/delicious)
+[![Gem Version](https://badge.fury.io/rb/delicious.svg)](http://badge.fury.io/rb/delicious) [![Build Status](https://travis-ci.org/andreychernih/delicious.svg?branch=master)](https://travis-ci.org/andreychernih/delicious)
 
 # Delicious API wrapper
 
