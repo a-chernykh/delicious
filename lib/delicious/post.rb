@@ -6,7 +6,7 @@ module Delicious
     include ActiveModel::Validations
     include ApiModel
 
-    attr_accessor :url, :description, :extended, :tags, :dt, :shared
+    attribute :url, :description, :extended, :tags, :dt, :shared
 
     validates :url, presence: true
     validates :description, presence: true
@@ -33,10 +33,6 @@ module Delicious
       else
         fail 'Bookmark was not saved yet'
       end
-    end
-
-    def to_s
-      %Q(Delicious::Post(url: "#{url}", description: "#{description}", tags: #{tags}, extended: "#{extended}", dt: "#{dt}", shared: #{shared}))
     end
   end
 end

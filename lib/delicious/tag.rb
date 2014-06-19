@@ -5,7 +5,7 @@ module Delicious
     include ActiveModel::Model
     include ApiModel
 
-    attr_accessor :name, :count
+    attribute :name, :count
 
     # Deletes this tag
     #
@@ -17,10 +17,6 @@ module Delicious
       else
         fail Delicious::Error, 'Tag was not saved yet'
       end
-    end
-
-    def to_s
-      %Q(Tag(name: "#{name}", count: #{count}))
     end
   end
 end

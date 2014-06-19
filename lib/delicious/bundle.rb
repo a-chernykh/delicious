@@ -6,7 +6,7 @@ module Delicious
     include ActiveModel::Validations
     include ApiModel
 
-    attr_accessor :name, :tags
+    attribute :name, :tags
 
     validates :name, presence: true
     validates :tags, presence: true
@@ -34,10 +34,6 @@ module Delicious
       else
         fail 'Bundle was not saved yet'
       end
-    end
-
-    def to_s
-      %Q(Delicious::Bundle(name: "#{name}", tags: #{tags}))
     end
   end
 end
