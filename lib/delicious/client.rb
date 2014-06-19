@@ -15,7 +15,7 @@ module Delicious
     #   client.access_token = 'my-access-token'
     # end
     # ```
-    def initialize(&block)
+    def initialize
       yield(self) if block_given?
     end
 
@@ -37,9 +37,9 @@ module Delicious
     # @return [Faraday::Connection]
     def connection
       Faraday.new(url: api_endpoint, headers: headers) do |c|
-        c.request  :url_encoded
+        c.request :url_encoded
         c.response :xml, content_type: /\bxml$/
-        c.adapter  Faraday.default_adapter
+        c.adapter Faraday.default_adapter
       end
     end
 

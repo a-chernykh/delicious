@@ -3,7 +3,6 @@ require 'active_support/concern'
 module Delicious
   module Bookmarks
     module Methods
-
       module All
         extend ActiveSupport::Concern
 
@@ -72,7 +71,7 @@ module Delicious
 
           def format_time(time)
             time = Time.parse(time) if time.respond_to?(:to_str)
-            time.strftime "%FT%TZ"
+            time.strftime '%FT%TZ'
           end
         end
 
@@ -106,11 +105,9 @@ module Delicious
             extended:    attrs['extended'],
             tags:        attrs['tag'],
             dt:          attrs['time'],
-            shared:      (attrs['shared'] == 'yes') 
-          }
+            shared:      (attrs['shared'] == 'yes') }
         end
       end
-
     end
   end
 end

@@ -1,7 +1,6 @@
 require 'active_support/concern'
 
 module Delicious
-
   module ApiModel
     extend ActiveSupport::Concern
 
@@ -10,7 +9,7 @@ module Delicious
     end
 
     def persisted?
-      !!@persisted
+      !@persisted.nil?
     end
 
     def to_s
@@ -29,13 +28,9 @@ module Delicious
       def attribute(*names)
         @attributes ||= []
         @attributes += names
-        attr_accessor *names
+        attr_accessor(*names)
       end
-
-      def attributes
-        @attributes
-      end
+      attr_reader :attributes
     end
   end
-
 end

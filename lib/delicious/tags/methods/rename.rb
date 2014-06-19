@@ -3,7 +3,6 @@ require 'active_support/concern'
 module Delicious
   module Tags
     module Methods
-
       module Rename
         extend ActiveSupport::Concern
 
@@ -18,7 +17,6 @@ module Delicious
           'done' == code
         end
       end
-
     end
   end
 end

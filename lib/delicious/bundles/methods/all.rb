@@ -3,7 +3,6 @@ require 'active_support/concern'
 module Delicious
   module Bundles
     module Methods
-
       module All
         extend ActiveSupport::Concern
 
@@ -17,7 +16,6 @@ module Delicious
           end
         end
       end
-
     end
   end
 end

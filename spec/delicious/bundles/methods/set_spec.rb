@@ -17,7 +17,7 @@ describe Delicious::Bundles::Methods::Set do
     context 'valid attrs given' do
       it 'sends post to /v1/tags/bundles/set' do
         action
-        expect(WebMock).to have_requested(:post, endpoint).with do |r| 
+        expect(WebMock).to have_requested(:post, endpoint).with do |r|
           assert_param(r, 'bundle', 'hardware') && assert_param(r, 'tags', 'tag1,tag2')
         end
       end
@@ -57,8 +57,8 @@ describe Delicious::Bundles::Methods::Set do
       let(:tags) { nil }
 
       it 'throws an error' do
-        expect { action }.to raise_error(Delicious::Error, "Please specify at least 1 tag")
-      end        
+        expect { action }.to raise_error(Delicious::Error, 'Please specify at least 1 tag')
+      end
     end
   end
 end

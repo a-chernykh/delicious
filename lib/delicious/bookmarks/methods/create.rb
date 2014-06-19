@@ -3,7 +3,6 @@ require 'active_support/concern'
 module Delicious
   module Bookmarks
     module Methods
-
       module Create
         extend ActiveSupport::Concern
 
@@ -21,12 +20,7 @@ module Delicious
         # @param attrs [Hash] Bookmark attributes
         # @return [Post]
         def create(attrs)
-          post = Delicious::Post.new url:         attrs[:url],
-                                     description: attrs[:description],
-                                     extended:    attrs[:extended],
-                                     tags:        attrs[:tags],
-                                     dt:          attrs[:dt],
-                                     shared:      attrs[:shared]
+          post = build_post attrs
 
           if post.valid?
             response = @client.connection.post '/v1/posts/add', post_attrs(post, attrs[:replace])
@@ -41,6 +35,15 @@ module Delicious
 
         private
 
+        def build_post(attrs)
+          Delicious::Post.new url:         attrs[:url],
+                              description: attrs[:description],
+                              extended:    attrs[:extended],
+                              tags:        attrs[:tags],
+                              dt:          attrs[:dt],
+                              shared:      attrs[:shared]
+        end
+
         def post_attrs(post, replace = false)
           { url:         post.url,
             description: post.description,
@@ -51,7 +54,6 @@ module Delicious
             replace:     replace ? 'yes' : 'no' }
         end
       end
-
     end
   end
 end

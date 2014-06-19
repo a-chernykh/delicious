@@ -2,7 +2,7 @@ describe Delicious::Bookmarks::Methods::All do
   describe '#all' do
     let(:method)   { :get }
     let(:endpoint) { %r{https:\/\/previous\.delicious\.com\/v1\/posts\/all\?(.+)} }
-    
+
     let(:success_body) do
       <<-EOT
   <?xml version="1.0" encoding="UTF-8"?>
@@ -35,24 +35,24 @@ describe Delicious::Bookmarks::Methods::All do
     describe 'limit / offset' do
       it 'allows to limit count of results' do
         client.bookmarks.all.limit(10).to_a
-        expect(WebMock).to have_requested(:get, endpoint).with(query: hash_including({ 'results' => '10' }))
+        expect(WebMock).to have_requested(:get, endpoint).with(query: hash_including('results' => '10'))
       end
 
       it 'allows to start results with given offset' do
         client.bookmarks.all.offset(10).to_a
-        expect(WebMock).to have_requested(:get, endpoint).with(query: hash_including({ 'start' => '10' }))
+        expect(WebMock).to have_requested(:get, endpoint).with(query: hash_including('start' => '10'))
       end
 
       it 'allows to specify limit and offset at the same time' do
         client.bookmarks.all.offset(10).limit(15).to_a
-        expect(WebMock).to have_requested(:get, endpoint).with(query: hash_including({ 'start' => '10', 'results' => '15' }))
+        expect(WebMock).to have_requested(:get, endpoint).with(query: hash_including('start' => '10', 'results' => '15'))
       end
     end
 
     describe 'filtering' do
       it 'by tag' do
         client.bookmarks.all.tag('angular').to_a
-        expect(WebMock).to have_requested(:get, endpoint).with(query: hash_including({ 'tag' => 'angular' }))
+        expect(WebMock).to have_requested(:get, endpoint).with(query: hash_including('tag' => 'angular'))
       end
 
       context 'by date' do
@@ -61,8 +61,8 @@ describe Delicious::Bookmarks::Methods::All do
           to = Time.parse '2013-11-13T12:10:00Z'
           client.bookmarks.all.from(from).to(to).to_a
           expect(WebMock).to have_requested(:get, endpoint)
-            .with(query: hash_including({ 'fromdt' => '2013-11-12T10:23:00Z',
-                                          'todt'   => '2013-11-13T12:10:00Z' }))
+            .with(query: hash_including('fromdt' => '2013-11-12T10:23:00Z',
+                                        'todt'   => '2013-11-13T12:10:00Z'))
         end
 
         it 'accepts strings' do
@@ -70,8 +70,8 @@ describe Delicious::Bookmarks::Methods::All do
           to = '2013/11/13 12:10:00'
           client.bookmarks.all.from(from).to(to).to_a
           expect(WebMock).to have_requested(:get, endpoint)
-            .with(query: hash_including({ 'fromdt' => '2013-11-12T10:23:00Z',
-                                          'todt'   => '2013-11-13T12:10:00Z' }))
+            .with(query: hash_including('fromdt' => '2013-11-12T10:23:00Z',
+                                        'todt'   => '2013-11-13T12:10:00Z'))
         end
       end
     end

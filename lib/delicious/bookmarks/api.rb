@@ -1,6 +1,5 @@
 module Delicious
   module Bookmarks
-
     class Api
       include Methods::All
       include Methods::Create
@@ -10,6 +9,5 @@ module Delicious
         @client = client
       end
     end
-
   end
 end

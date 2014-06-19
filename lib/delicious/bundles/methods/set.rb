@@ -3,7 +3,6 @@ require 'active_support/concern'
 module Delicious
   module Bundles
     module Methods
-
       module Set
         extend ActiveSupport::Concern
 
@@ -21,7 +20,6 @@ module Delicious
           Bundle.build_persisted @client, name: name, tags: tags
         end
       end
-
     end
   end
 end

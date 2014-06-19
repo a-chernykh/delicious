@@ -10,8 +10,8 @@ describe Delicious::Post do
     context 'persisted' do
       before do
         stub_request(:post, 'https://previous.delicious.com/v1/posts/add')
-          .to_return body: '<?xml version="1.0" encoding="UTF-8"?><result code="done"/>', 
-                     headers: {'Content-Type' => 'text/xml; charset=UTF-8'}
+          .to_return body: '<?xml version="1.0" encoding="UTF-8"?><result code="done"/>',
+                     headers: { 'Content-Type' => 'text/xml; charset=UTF-8' }
       end
 
       it 'invokes delete with the URL on associated client' do

@@ -1,6 +1,5 @@
 module Delicious
   module Bundles
-
     class Api
       include Methods::Find
       include Methods::All
@@ -15,6 +14,5 @@ module Delicious
         @client = client
       end
     end
-
   end
 end

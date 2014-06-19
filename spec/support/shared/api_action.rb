@@ -9,7 +9,7 @@ RSpec.shared_context 'api action context' do
   before do
     body = result == :failure ? failure_body : success_body
     @request = stub_request(method, endpoint)
-      .to_return body: body, headers: {'Content-Type' => 'text/xml; charset=UTF-8'}
+      .to_return body: body, headers: { 'Content-Type' => 'text/xml; charset=UTF-8' }
   end
 end
 
