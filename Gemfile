@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'rake'
+gem 'rubocop'
 
 group :development do
   gem 'yard'
@@ -13,8 +14,6 @@ group :development do
 
   gem 'guard-rspec', require: false
   gem 'terminal-notifier-guard'
-
-  gem 'rubocop'
 end
 
 group :test do
