@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Delicious
   module Bookmarks
     class Api

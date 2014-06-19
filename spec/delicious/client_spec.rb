@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe Delicious::Client do
   let(:client) do
     described_class.new do |config|

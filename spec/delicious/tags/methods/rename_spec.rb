@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe Delicious::Tags::Methods::Rename do
   describe '#rename' do
     let(:endpoint) { 'https://previous.delicious.com/v1/tags/rename' }

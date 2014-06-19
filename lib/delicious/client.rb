@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'faraday'
 require 'faraday_middleware'
 require 'multi_xml'

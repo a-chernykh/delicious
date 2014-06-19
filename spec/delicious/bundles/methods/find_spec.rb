@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe Delicious::Bundles::Methods::Find do
   describe '#find' do
     let(:method)   { :get }

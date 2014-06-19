@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe Delicious::Bookmarks::Methods::Create do
   describe '#create' do
     let(:method)   { :post }

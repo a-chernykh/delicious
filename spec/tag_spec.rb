@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe Delicious::Tag do
   describe '#delete' do
     context 'persisted' do

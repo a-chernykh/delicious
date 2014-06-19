@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe Delicious::Tags::Methods::Delete do
   describe '#delete' do
     let(:method)   { :post }

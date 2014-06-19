@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe Delicious::Bundle do
   it { should validate_presence_of :name }
   it { should validate_presence_of :tags }

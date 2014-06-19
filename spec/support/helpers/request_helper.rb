@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module RequestHelper
   def parse_query(r)
     Hash[CGI.parse(r).map { |k, v| [k, v[0]] }]

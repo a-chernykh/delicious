@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 RSpec.shared_context 'api action context' do
   let(:client) do
     Delicious::Client.new do |config|

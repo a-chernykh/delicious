@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Delicious
   autoload :Client,       'delicious/client'
   autoload :ApiModel,     'delicious/api_model'

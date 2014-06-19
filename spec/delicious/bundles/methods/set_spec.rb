@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe Delicious::Bundles::Methods::Set do
   describe '#set' do
     let(:method)   { :post }

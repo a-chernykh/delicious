@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe Delicious::Tags::Methods::All do
   describe '#all' do
     let(:method)   { :get }
