@@ -2,7 +2,13 @@
 
 # Delicious API wrapper
 
-API documentation located [here](https://github.com/SciDevs/delicious-api/tree/master/api).
+This gem is a [delicious.com](http://delicious.com) oAuth API client. It supports pretty much everything delicious API allows to do:
+
+* [Manage bookmarks](#bookmarks) (get, create, delete)
+* [Manage bundles](#bundles) (get, create, delete)
+* [Manage tags](#tags) (get, rename, delete)
+
+Delicious API requires you to [obtain user's oAuth token](https://github.com/SciDevs/delicious-api/blob/master/api/oauth.md) in order to access his/her account programmatically.
 
 ## Requirements
 
@@ -26,7 +32,7 @@ client = Delicious::Client.new do |config|
 end
 ```
 
-## Bookmarks
+## <a name="bookmarks"><a/>Bookmarks
 
 ### Get bookmarks
 
@@ -67,7 +73,7 @@ You can also delete bookmark with a client:
 client.bookmarks.delete url: 'http://example.com' # => true if bookmark was deleted, false otherwise
 ```
 
-## Bundles
+## <a name="bundles"><a/>Bundles
 
 Bundles are named list of tags. See the following example for how to create a new bundle:
 
@@ -95,7 +101,7 @@ bundle = client.bundles.find 'bundlename'
 bundles = client.bundles.all
 ```
 
-## Tags
+## <a name="tags"><a/>Tags
 
 ### Get all tags
 
@@ -114,3 +120,7 @@ client.tags.delete 'tag'
 ```ruby
 client.tags.rename 'old_name', 'new_name'
 ```
+
+## Links
+
+* [Delicious API documentation](https://github.com/SciDevs/delicious-api/tree/master/api).
